@@ -1,6 +1,11 @@
 name: Build Release
 
-on: 
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - 'Packages/**/package.json'
   workflow_dispatch:
 
 jobs:

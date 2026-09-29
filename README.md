@@ -1,53 +1,36 @@
-# VPM Package Template
+# PathWeaver
 
-Starter for making Packages, including automation for building and publishing them.
+**PathWeaver** is a non-destructive Unity tool for VRChat avatars that turns your GameObject hierarchy into your VRChat expression menu folder structure. It rewrites [VRCFury](https://vrcfury.com/) menu paths at avatar build time — no manual path editing required.
 
-Once you're all set up, you'll be able to push changes to this repository and have .zip and .unitypackage versions automatically generated, and a listing made which works in the VPM for delivering updates for this package. If you want to make a listing with a variety of packages, check out our [template-package-listing](https://github.com/vrchat-community/template-package-listing) repo.
+## How It Works
 
-## ▶ Getting Started
+Place a `PathWeaver` component on any GameObject in your avatar hierarchy. The names of the GameObjects nested beneath it are used to automatically generate menu folder paths for any VRCFury features found in the same subtree.
 
-* Press [![Use This Template](https://user-images.githubusercontent.com/737888/185467681-e5fdb099-d99f-454b-8d9e-0760e5a6e588.png)](https://github.com/vrchat-community/template-package/generate)
-to start a new GitHub project based on this template.
-  * Choose a fitting repository name and description.
-  * Set the visibility to 'Public'. You can also choose 'Private' and change it later.
-  * You don't need to select 'Include all branches.'
-* Clone this repository locally using Git.
-  * If you're unfamiliar with Git and GitHub, [visit GitHub's documentation](https://docs.github.com/en/get-started/quickstart/git-and-github-learning-resources) to learn more.
-* Add the folder to Unity Hub and open it as a Unity Project.
-* After opening the project, wait while the VPM resolver is downloaded and added to your project.
-  * This gives you access to the VPM Package Maker and Package Resolver tools.
+At build time (before VRCFury runs), PathWeaver walks every child `VRCFury` component and rewrites its menu path based on where the component sits in the hierarchy:
 
-## 🚇 Migrating Assets Package
-Full details at [Converting Assets to a VPM Package](https://vcc.docs.vrchat.com/guides/convert-unitypackage)
+- **Toggles** (`VF.Model.Feature.Toggle`): the folder path derived from the hierarchy is prepended to the existing toggle name (e.g. `MyFeature` under `Outfit/Shirt` becomes `Outfit/Shirt/MyFeature`).
+- **Full Controllers** (`VF.Model.Feature.FullController`): the menu prefix is replaced entirely with the folder path.
 
-## ✏️ Working on Your Package
+## Configuration
 
-* Delete the "Packages/com.vrchat.demo-template" directory or reuse it for your own package.
-  * If you reuse the package, don't forget to rename it and add generated meta files to your repository!
-* Update the `.gitignore` file in the "Packages" directory to include your package.
-  * For example, change `!com.vrchat.demo-template` to `!com.username.package-name`.
-  * `.gitignore` files normally *exclude* the contents of your "Packages" directory. This `.gitignore` in this template show how to *include* the demo package. You can easily change this out for your own package name.
-* Open the Unity project and work on your package's files in your favorite code editor.
-* When you're ready, commit and push your changes.
-* Once you've set up the automation as described below, you can easily publish new versions.
+| Field | Description |
+|---|---|
+| `Root Prefix` | A string prepended to every generated path, e.g. `"My Avatar"`. Leave empty for none. |
+| `Skip Prefix` | GameObjects whose name starts with this string are excluded from the folder path, e.g. `"_"`. |
+| `Rules` | List of rewrite rules. Each rule maps a VRCFury feature type to a field name and a path mode. |
 
-## 🤖 Setting up the Automation
+### Path Modes
 
-Create a repository variable with the name and value described below.
-For details on how to create repository variables, see [Creating Configuration Variables for a Repository](https://docs.github.com/en/actions/learn-github-actions/variables#creating-configuration-variables-for-a-repository).
-Make sure you are creating a **repository variable**, and not a **repository secret**.
+- **FolderPlusLeaf** — uses the folder path plus the last segment of the existing value. Suitable for Toggles.
+- **FolderOnly** — replaces the existing value entirely with the folder path. Suitable for Full Controller menu prefixes.
 
-* `PACKAGE_NAME`: the name of your package, like `com.vrchat.demo-template`.
+## Editor Utilities
 
-Finally, go to the "Settings" page for your repo, then choose "Pages", and look for the heading "Build and deployment". Change the "Source" dropdown from "Deploy from a branch" to "GitHub Actions".
+Right-click the `PathWeaver` component header in the Inspector for two helper actions:
 
-That's it!
-Some other notes:
-* We highly recommend you keep the existing folder structure of this template.
-  * The root of the project should be a Unity project.
-  * Your packages should be in the "Packages" directory.
-  * If you deviate from this folder structure, you'll need to update the paths that assume your package is in the "Packages" directory on lines 24, 38, 41 and 57.
-* If you want to store and generate your web files in a folder other than "Website" in the root, you can change the `listPublicDirectory` item [here in build-listing.yml](.github/workflows/build-listing.yml#L17).
+- **Preview Generated Paths** — performs a dry run and logs what paths would be written, without modifying anything.
+- **Dump Feature Fields** — logs every unique VRCFury feature type found under the root along with its serialized fields, useful for configuring custom rules.
+
 
 ## 🎉 Publishing a Release
 
