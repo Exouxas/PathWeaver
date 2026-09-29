@@ -1,7 +1,7 @@
 {
   "name": "dev.exouxas.pathweaver",
   "displayName": "PathWeaver",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "unity": "2022.3",
   "description": "Your GameObject hierarchy becomes your VRChat expression menu. Rewrites VRCFury menu paths at build time, non-destructively.",
   "author": {
