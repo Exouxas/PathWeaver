@@ -1,0 +1,18 @@
+{
+  "name": "dev.exouxas.pathweaver",
+  "displayName": "PathWeaver",
+  "version": "0.1.0",
+  "unity": "2022.3",
+  "description": "Your GameObject hierarchy becomes your VRChat expression menu. Rewrites VRCFury menu paths at build time, non-destructively.",
+  "author": {
+    "name": "Exouxas",
+    "url": "https://github.com/Exouxas"
+  },
+  "license": "MIT",
+  "url": "https://github.com/Exouxas/PathWeaver.git",
+  "changelogUrl": "https://github.com/Exouxas/PathWeaver/releases",
+  "documentationUrl": "https://github.com/Exouxas/PathWeaver",
+  "vpmDependencies": {
+    "com.vrchat.avatars": ">=3.5.0"
+  }
+}

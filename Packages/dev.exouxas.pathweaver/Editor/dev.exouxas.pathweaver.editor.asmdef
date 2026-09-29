@@ -1,0 +1,20 @@
+{
+  "name": "dev.exouxas.pathweaver.editor",
+  "rootNamespace": "",
+  "references": [
+    "dev.exouxas.pathweaver",
+    "VRC.SDKBase",
+    "VRC.SDKBase.Editor"
+  ],
+  "includePlatforms": [
+    "Editor"
+  ],
+  "excludePlatforms": [],
+  "allowUnsafeCode": false,
+  "overrideReferences": false,
+  "precompiledReferences": [],
+  "autoReferenced": true,
+  "defineConstraints": [],
+  "versionDefines": [],
+  "noEngineReferences": false
+}
